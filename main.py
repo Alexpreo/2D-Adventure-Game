@@ -1,26 +1,27 @@
-import pygame
-from pygame.locals import *
-pygame.init()
+import pygame, sys
+from settings import *
+from level import Level
 
-white = 255, 255, 255,
-black = 0, 0, 0
-size = width, height = 600, 600
-screen = pygame.display.set_mode(size)
-icon = pygame.image.load()
-
-
-running = True
-while running:  
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+class Game:
+    def __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption(TITLE)
+        self.clock = pygame.time.Clock()
+        
+        self.level = Level()
+        
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                    
+            self.screen.fill('black')
+            self.level.run()
+            pygame.display.update()
+            self.clock.tick(FPS)
             
-    screen.fill(white)
-
-    pygame.draw.circle(screen, (0, 0, 255), (250, 250), 50)
-    pygame.display.set_caption("2D Adventure Game")
-    pygame.display.set_icon(icon)
-    pygame.display.flip()
-
-pygame.quit()
+if __name__ == '__main__':
+    game = Game()
+    game.run()
